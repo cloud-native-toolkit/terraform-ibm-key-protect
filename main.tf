@@ -47,7 +47,7 @@ resource "null_resource" "keyprotect_secret" {
     kubeconfig  = var.cluster_config_file_path
     namespace   = var.tools_namespace
     script_dir  = "${local.module_path}/scripts"
-    instance_id = data.ibm_resource_instance.keyprotect_instance[0].id
+    instance_id = data.ibm_resource_instance.keyprotect_instance[0].guid
   }
 
   provisioner "local-exec" {
