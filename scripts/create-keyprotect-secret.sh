@@ -6,7 +6,7 @@ KP_INSTANCE_ID="$3"
 
 name="key-protect-access"
 
-echo "Creating secret for key protect (${NAMESPACE}/${name}): ${REGION}, ${KP_INSTANCE_ID}"
+echo "Creating secret for key protect ${NAMESPACE}/${name}: ${REGION}, ${KP_INSTANCE_ID}"
 
 kubectl create secret generic -n "${NAMESPACE}" key-protect-access \
   --from-literal=api-key="${API_KEY}" \
