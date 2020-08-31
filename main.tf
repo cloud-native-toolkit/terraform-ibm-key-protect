@@ -44,12 +44,12 @@ resource "null_resource" "keyprotect_secret" {
   count = local.bind ? 1 : 0
 
   triggers = {
-    kubeconfig  = var.cluster_config_file_path
-    module_path = local.module_path
+    kubeconfig = var.cluster_config_file_path
+    script_dir = "${local.module_path}/scripts"
   }
 
   provisioner "local-exec" {
-    command = "${self.triggers.module_path}/create-keyprotect-secret.sh ${var.tools_namespace} ${var.resource_location} ${data.ibm_resource_instance.keyprotect_instance[0].id}"
+    command = "${self.triggers.script_dir}/create-keyprotect-secret.sh ${var.tools_namespace} ${var.resource_location} ${data.ibm_resource_instance.keyprotect_instance[0].id}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -60,7 +60,7 @@ resource "null_resource" "keyprotect_secret" {
   provisioner "local-exec" {
     when = destroy
 
-    command = "${self.triggers.module_path}/destroy-keyprotect-secret.sh"
+    command = "${self.triggers.script_dir}/destroy-keyprotect-secret.sh"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
