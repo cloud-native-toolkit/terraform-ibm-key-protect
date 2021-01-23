@@ -48,3 +48,15 @@ variable "private_endpoint" {
   description = "Flag indicating that the service should be created with private endpoints"
   default     = "true"
 }
+
+variable "admin-access-group" {
+  type        = string
+  description = "The name of the existing access group that should be updated with Key Protect admin permissions"
+  default     = ""
+}
+
+variable "user-access-group" {
+  type        = string
+  description = "The name of the existing access group that should be updated with Key Protect user permissions"
+  default     = ""
+}
