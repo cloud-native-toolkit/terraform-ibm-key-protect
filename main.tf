@@ -11,6 +11,7 @@ locals {
   name        = var.name != "" ? var.name : "${replace(local.name_prefix, "/[^a-zA-Z0-9_\\-\\.]/", "")}-keyprotect"
   bind        = (var.provision || (!var.provision && var.name != "")) && var.cluster_name != ""
   module_path = substr(path.module, 0, 1) == "/" ? path.module : "./${path.module}"
+  service_endpoints = var.private_endpoint == "true" ? "private" : "public"
 }
 
 resource "ibm_resource_instance" "keyprotect_instance" {
@@ -19,9 +20,13 @@ resource "ibm_resource_instance" "keyprotect_instance" {
   name              = local.name
   service           = "kms"
   plan              = var.plan
-  location          = var.resource_location
+  location          = var.region
   resource_group_id = data.ibm_resource_group.resource_group.id
   tags              = var.tags
+
+  parameters = {
+    service-endpoints = local.service_endpoints
+  }
 
   timeouts {
     create = "15m"
@@ -36,36 +41,6 @@ data "ibm_resource_instance" "keyprotect_instance" {
 
   name              = local.name
   resource_group_id = data.ibm_resource_group.resource_group.id
-  location          = var.resource_location
+  location          = var.region
   service           = "kms"
-}
-
-resource "null_resource" "keyprotect_secret" {
-  count = local.bind ? 1 : 0
-
-  triggers = {
-    kubeconfig  = var.cluster_config_file_path
-    namespace   = var.tools_namespace
-    script_dir  = "${local.module_path}/scripts"
-    instance_id = data.ibm_resource_instance.keyprotect_instance[0].guid
-  }
-
-  provisioner "local-exec" {
-    command = "${self.triggers.script_dir}/create-keyprotect-secret.sh ${self.triggers.namespace} ${var.resource_location} ${self.triggers.instance_id}"
-
-    environment = {
-      KUBECONFIG = self.triggers.kubeconfig
-      API_KEY    = var.ibmcloud_api_key
-    }
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-
-    command = "${self.triggers.script_dir}/destroy-keyprotect-secret.sh ${self.triggers.namespace}"
-
-    environment = {
-      KUBECONFIG = self.triggers.kubeconfig
-    }
-  }
 }
