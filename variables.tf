@@ -3,7 +3,7 @@ variable "resource_group_name" {
   description = "Resource group where the cluster has been provisioned."
 }
 
-variable "resource_location" {
+variable "region" {
   type        = string
   description = "Geographic location of the resource (e.g. us-south, us-east)"
 }
@@ -37,26 +37,14 @@ variable "name" {
   default     = ""
 }
 
-variable "cluster_config_file_path" {
-  type        = string
-  description = "The path to the config file for the cluster"
-  default     = ""
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "The name of the cluster"
-  default     = ""
-}
-
-variable "tools_namespace" {
-  type        = string
-  description = "The namespace where the tools have been deployed (where the configmap should be created)"
-  default     = "default"
-}
-
 variable "ibmcloud_api_key" {
   type        = string
   description = "The api key for IBM Cloud access"
   default     = ""
+}
+
+variable "private_endpoint" {
+  type        = string
+  description = "Flag indicating that the service should be created with private endpoints"
+  default     = "true"
 }
