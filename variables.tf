@@ -40,7 +40,6 @@ variable "name" {
 variable "ibmcloud_api_key" {
   type        = string
   description = "The api key for IBM Cloud access"
-  default     = ""
 }
 
 variable "private_endpoint" {
