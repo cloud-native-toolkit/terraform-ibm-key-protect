@@ -48,3 +48,9 @@ variable "private_endpoint" {
   description = "Flag indicating that the service should be created with private endpoints"
   default     = "true"
 }
+
+variable "label" {
+  type        = string
+  description = "The label used as generate the name of the resource using the name_prefix"
+  default     = "keyprotect"
+}
