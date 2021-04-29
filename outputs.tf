@@ -3,6 +3,11 @@ output "id" {
   description = "The id of the provisioned instance."
 }
 
+output "guid" {
+  value       = data.ibm_resource_instance.keyprotect_instance.fuid
+  description = "The id of the provisioned instance."
+}
+
 output "name" {
   value       = local.name
   depends_on  = [ibm_resource_instance.keyprotect_instance]
