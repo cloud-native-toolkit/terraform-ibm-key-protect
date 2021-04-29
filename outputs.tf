@@ -4,7 +4,7 @@ output "id" {
 }
 
 output "guid" {
-  value       = data.ibm_resource_instance.keyprotect_instance.fuid
+  value       = data.ibm_resource_instance.keyprotect_instance.guid
   description = "The id of the provisioned instance."
 }
 
