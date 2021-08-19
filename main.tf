@@ -5,7 +5,7 @@ resource null_resource print_names {
   }
 }
 
-data "ibm_resource_group" "resource_group" {
+data ibm_resource_group resource_group {
   depends_on = [null_resource.print_names]
 
   name = var.resource_group_name
@@ -17,10 +17,11 @@ locals {
   module_path = substr(path.module, 0, 1) == "/" ? path.module : "./${path.module}"
   service_endpoints = var.private_endpoint == "true" ? "private" : "public"
   service     = "kms"
+  instance    = !var.skip ? data.ibm_resource_instance.keyprotect_instance[0] : {}
 }
 
-resource "ibm_resource_instance" "keyprotect_instance" {
-  count = var.provision ? 1 : 0
+resource ibm_resource_instance keyprotect_instance {
+  count = var.provision && !var.skip ? 1 : 0
 
   name              = local.name
   service           = "kms"
@@ -40,7 +41,8 @@ resource "ibm_resource_instance" "keyprotect_instance" {
   }
 }
 
-data "ibm_resource_instance" "keyprotect_instance" {
+data ibm_resource_instance keyprotect_instance {
+  count             = var.skip ? 0 : 1
   depends_on        = [ibm_resource_instance.keyprotect_instance]
 
   name              = local.name
