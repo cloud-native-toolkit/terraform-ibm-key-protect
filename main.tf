@@ -17,7 +17,8 @@ locals {
   module_path = substr(path.module, 0, 1) == "/" ? path.module : "./${path.module}"
   service_endpoints = var.private_endpoint == "true" ? "private" : "public"
   service     = "kms"
-  instance    = !var.skip ? data.ibm_resource_instance.keyprotect_instance[0] : {}
+  id          = !var.skip ? data.ibm_resource_instance.keyprotect_instance[0].id : ""
+  guid        = !var.skip ? data.ibm_resource_instance.keyprotect_instance[0].guid : ""
 }
 
 resource ibm_resource_instance keyprotect_instance {

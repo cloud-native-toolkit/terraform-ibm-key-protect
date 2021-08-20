@@ -1,10 +1,10 @@
 output "id" {
-  value       = lookup(local.instance, "id", "")
+  value       = local.id
   description = "The id of the provisioned instance."
 }
 
 output "guid" {
-  value       = lookup(local.instance, "guid", "")
+  value       = local.guid
   description = "The id of the provisioned instance."
 }
 
@@ -16,7 +16,7 @@ output "name" {
 
 output "crn" {
   description = "The id of the provisioned instance"
-  value       = lookup(local.instance, "id", "")
+  value       = local.id
 }
 
 output "location" {
