@@ -54,3 +54,9 @@ variable "label" {
   description = "The label used as generate the name of the resource using the name_prefix"
   default     = "keyprotect"
 }
+
+variable "skip" {
+  type        = bool
+  description = "Flag indicating that the logic should be skipped (i.e. don't do anything)"
+  default     = false
+}

@@ -1,10 +1,10 @@
 output "id" {
-  value       = data.ibm_resource_instance.keyprotect_instance.id
+  value       = local.id
   description = "The id of the provisioned instance."
 }
 
 output "guid" {
-  value       = data.ibm_resource_instance.keyprotect_instance.guid
+  value       = local.guid
   description = "The id of the provisioned instance."
 }
 
@@ -16,7 +16,7 @@ output "name" {
 
 output "crn" {
   description = "The id of the provisioned instance"
-  value       = data.ibm_resource_instance.keyprotect_instance.id
+  value       = local.id
 }
 
 output "location" {
