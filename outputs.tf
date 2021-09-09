@@ -36,3 +36,15 @@ output "label" {
   value       = var.label
   depends_on = [data.ibm_resource_instance.keyprotect_instance]
 }
+
+output "public_url" {
+  description = "The public endpoint for the resource"
+  value       = "https://${var.region}.kms.cloud.ibm.com"
+  depends_on = [data.ibm_resource_instance.keyprotect_instance]
+}
+
+output "private_url" {
+  description = "The private endpoint for the resource"
+  value       = "https://private.${var.region}.kms.cloud.ibm.com"
+  depends_on = [data.ibm_resource_instance.keyprotect_instance]
+}
