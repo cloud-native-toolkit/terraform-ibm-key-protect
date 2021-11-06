@@ -38,11 +38,6 @@ variable "name" {
   default     = ""
 }
 
-variable "ibmcloud_api_key" {
-  type        = string
-  description = "The api key for IBM Cloud access"
-}
-
 variable "private_endpoint" {
   type        = string
   description = "Flag indicating that the service should be created with private endpoints"
