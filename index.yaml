@@ -1,4 +1,4 @@
-id: github.com/cloud-native-toolkit/terraform-ibm-key-protect
+id: github.com/terraform-ibm-modules/terraform-ibm-toolkit-key-protect
 name: key-protect
 type: terraform
 description: Module to provision Key Protect
@@ -6,6 +6,94 @@ tags:
   - tools
   - vault
 versions:
+  - platforms: []
+    providers:
+      - name: ibm
+        source: ibm-cloud/ibm
+    dependencies:
+      - id: resource_group
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-ibm-resource-group
+            version: '>= 2.1.0'
+    variables:
+      - name: resource_group_name
+        type: string
+        description: Resource group where the cluster has been provisioned.
+        moduleRef:
+          id: resource_group
+          output: name
+      - name: region
+        type: string
+        description: Geographic location of the resource (e.g. us-south, us-east)
+        scope: global
+      - name: tags
+        type: list(string)
+        description: Tags that should be applied to the service
+        default: []
+      - name: name_prefix
+        type: string
+        description: >-
+          The prefix name for the service. If not provided it will default to
+          the resource group name
+        default: ''
+        scope: global
+      - name: plan
+        type: string
+        description: >-
+          The type of plan the service instance should run under
+          (tiered-pricing)
+        default: tiered-pricing
+      - name: provision
+        type: bool
+        description: Flag indicating that key-protect instance should be provisioned
+        default: true
+      - name: name
+        type: string
+        description: >-
+          The name that should be used for the service, particularly when
+          connecting to an existing service. If not provided then the name will
+          be defaulted to {name prefix}-{service}
+        default: ''
+        scope: ignore
+      - name: private_endpoint
+        type: string
+        description: >-
+          Flag indicating that the service should be created with private
+          endpoints
+        default: 'true'
+        scope: global
+      - name: label
+        type: string
+        description: >-
+          The label used as generate the name of the resource using the
+          name_prefix
+        default: keyprotect
+      - name: skip
+        type: bool
+        description: >-
+          Flag indicating that the logic should be skipped (i.e. don't do
+          anything)
+        default: false
+    version: v2.3.2
+    outputs:
+      - name: id
+        description: The id of the provisioned instance.
+      - name: guid
+        description: The id of the provisioned instance.
+      - name: name
+        description: The name of the provisioned instance.
+      - name: crn
+        description: The id of the provisioned instance
+      - name: location
+        description: The location of the provisioned instance
+      - name: service
+        description: The service name of the key provisioned for the instance
+      - name: label
+        description: The label for the instance
+      - name: public_url
+        description: The public endpoint for the resource
+      - name: private_url
+        description: The private endpoint for the resource
   - platforms: []
     providers:
       - name: ibm
