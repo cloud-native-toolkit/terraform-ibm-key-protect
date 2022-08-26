@@ -6,6 +6,8 @@ Provisions an instance of Key Protect in the account.
 
 ## Example usage
 
+[Refer to test cases for more details](test/stages/stage2-key-protect.tf)
+
 ```hcl-terraform
 terraform {
   required_providers {
@@ -19,6 +21,15 @@ terraform {
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
   region = var.region
+}
+
+module "dev_key_protect" {
+  source = "./module"
+
+  resource_group_name      = module.resource_group.name
+  region                   = var.region
+  name_prefix              = var.name_prefix
+  provision                = true
 }
 
 module "dev_infrastructure_keyprotect" {
